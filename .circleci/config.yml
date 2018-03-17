@@ -23,11 +23,11 @@ jobs:
             - node_modules
       - run: 
           name: Server
-          command: npm start
+          command: npm run build
           background: true
       - run:
           name: Running E2E tests with multiple reporters
-          command: npm run test:integration -- --reporter mocha-multi-reporters --reporter-options configFile=cypress/reporters.json
+          command: npm run test:integration -- --config fileServerFolder=build --reporter mocha-multi-reporters --reporter-options configFile=cypress/reporters.json
       - store_test_results:
           path: results
       - store_artifacts:

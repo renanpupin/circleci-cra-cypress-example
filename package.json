@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "cypress": "^2.1.0",
-    "cypress-cucumber-preprocessor": "^0.3.0",
+    "cypress-cucumber-preprocessor": "github:reaktivo/reaktivo/cypress-cucumber-preprocessor#9d8b7ce62640dd048f266e02b79caf1741a79311",
     "mocha": "^5.0.4",
     "mocha-junit-reporter": "^1.13.0",
     "mocha-multi-reporters": "^1.1.4",
