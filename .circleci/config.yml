@@ -1,0 +1,36 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      # the Docker image with Cypress dependencies
+      - image: cypress/base:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    parallelism: 1
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-npm-deps-{{ checksum "package.json" }}
+            - v1-npm-deps
+      - run: npm install
+      - save_cache:
+          key: v1-npm-deps-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: 
+          name: Server
+          command: npm start
+          background: true
+      - run:
+          name: Running E2E tests with multiple reporters
+          command: npm run test:integration -- --reporter mocha-multi-reporters --reporter-options configFile=cypress/reporters.json
+      - store_test_results:
+          path: results
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
