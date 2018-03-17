@@ -1,4 +1,4 @@
 {
-  "baseUrl": "http://localhost:3000",
+  "fileServerFolder": "build",
   "projectId": "kfgr2z"
 }
