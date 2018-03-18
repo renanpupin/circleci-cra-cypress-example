@@ -32,6 +32,9 @@ jobs:
       - run:
           name: Integration tests
           command: npm run test:integration --  --reporter mocha-multi-reporters --reporter-options configFile=cypress/reporters.json
+      - run:
+          name: Deploy to Now
+          command: npm run deploy:integration
       - store_test_results:
           path: results
       - store_artifacts:
