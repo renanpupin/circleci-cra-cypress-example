@@ -44,7 +44,7 @@ jobs:
             export ACCEPTANCE_URL=`echo $DEPLOY_RESULT | grep "https://" | tr -d "[:space:]"`
             export URL="https://api.github.com/repos/$CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/$ISSUE_NUMBER/comments"
             echo $URL \n
-            curl $URL -u "$GITHUB_ACCOUNT:$GITHUB_ACCOUNT_TOKEN" --data '{"body":"A new acceptance URL has been deployed: [$ACCEPTANCE_URL]($ACCEPTANCE_URL)"}'
+            curl $URL -u "$GITHUB_ACCOUNT:$GITHUB_ACCOUNT_TOKEN" --data "{\"body\":\"A new acceptance URL has been deployed: [$ACCEPTANCE_URL]($ACCEPTANCE_URL)\"}"
       - store_test_results:
           path: results
       - store_artifacts:
