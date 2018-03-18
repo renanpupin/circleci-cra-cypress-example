@@ -37,7 +37,10 @@ jobs:
           command: env
       - run:
           name: Deploy to Now
-          command: 'export ACCEPTANCE_URL=`npm run deploy:integration | grep "https://" | tr -d "[:space:]"` curl "https://api.github.com/repos/$CIRCLE_PR_USERNAME/$CIRCLE_PR_REPONAME/issues/$CIRCLE_PR_NUMBER/comments" -u "$GITHUB_ACCOUNT:$GITHUB_ACCOUNT_TOKEN" --data "body=A new acceptance URL has been deployed: [$ACCEPTANCE_URL]($ACCEPTANCE_URL)"'
+          command: |
+            export ACCEPTANCE_URL=`npm run deploy:integration | grep "https://" | tr -d "[:space:]"`
+            export ISSUE_NUMBER=`basename $CI_PULL_REQUEST`
+            curl "https://api.github.com/repos/$CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/$ISSUE_NUMBER/comments" -u "$GITHUB_ACCOUNT:$GITHUB_ACCOUNT_TOKEN" --data "body=A new acceptance URL has been deployed: [$ACCEPTANCE_URL]($ACCEPTANCE_URL)"'
       - store_test_results:
           path: results
       - store_artifacts:
