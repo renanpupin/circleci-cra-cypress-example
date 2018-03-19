@@ -16,18 +16,36 @@ jobs:
           keys:
             - v1-npm-deps-{{ checksum "package-lock.json" }}
             - v1-npm-deps
-      - run: npm install
+      - run: 
+          name: Install NPM dependencies
+          command: npm ci
       - save_cache:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run: 
-          name: Server
+          name: Build application
           command: npm run build
-          background: true
       - run:
-          name: Running E2E tests with multiple reporters
-          command: npm run test:integration --  --config fileServerFolder=build --reporter mocha-multi-reporters --reporter-options configFile=cypress/reporters.json
+          name: Unit Tests
+          command: npm run -s test:unit
+      - run:
+          name: Integration tests
+          command: npm run test:integration --  --reporter mocha-multi-reporters --reporter-options configFile=cypress/reporters.json
+      - run:
+          name: Echo env
+          command: env
+      - run:
+          name: Deploy to Now
+          command: |
+            export ISSUE_NUMBER=`basename $CI_PULL_REQUEST`
+            export DEPLOY_RESULT=`npm run deploy:integration`
+            printf $DEPLOY_RESULT \n
+            export ACCEPTANCE_URL=`echo $DEPLOY_RESULT | grep "https://" | tr -d "[:space:]"`
+            export URL="https://api.github.com/repos/$CIRCLE_USERNAME/$CIRCLE_PROJECT_REPONAME/issues/$ISSUE_NUMBER/comments"
+            echo $URL \n
+            export URL="https://requestb.in/14o1pe71"
+            curl $URL -u "$GITHUB_ACCOUNT:$GITHUB_ACCOUNT_TOKEN" --data "{\"body\":\"A new acceptance URL has been deployed: [$ACCEPTANCE_URL]($ACCEPTANCE_URL)\"}"
       - store_test_results:
           path: results
       - store_artifacts:

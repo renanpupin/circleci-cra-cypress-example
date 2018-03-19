@@ -8,6 +8,7 @@
     "mocha": "^5.0.4",
     "mocha-junit-reporter": "^1.13.0",
     "mocha-multi-reporters": "^1.1.4",
+    "now": "^10.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1"
@@ -15,8 +16,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "test:integration": "cypress run",
-    "eject": "react-scripts eject"
+    "test": "npm run -s test:unit && npm run -s test:integration",
+    "test:unit": "react-scripts test --env=jsdom",
+    "test:integration": "cypress run --config fileServerFolder=build",
+    "eject": "react-scripts eject",
+    "deploy:integration": "now -t \"${NOW_SH_AUTH_TOKEN}\" rm -y \"${CIRCLE_BRANCH}\" 2>/dev/null; now -t \"${NOW_SH_AUTH_TOKEN}\" build --public -n \"${CIRCLE_BRANCH}\""
   }
 }
