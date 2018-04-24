@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "cypress": "^2.1.0",
-    "cypress-cucumber-preprocessor": "^0.3.0",
+    "cypress-cucumber-preprocessor": "^1.0.0",
     "mocha": "^5.0.4",
     "mocha-junit-reporter": "^1.13.0",
     "mocha-multi-reporters": "^1.1.4",
-    "now": "^10.2.1",
+    "now": "^11.1.7",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "react-scripts": "1.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
